@@ -8,6 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Getter
 public class User extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +30,5 @@ public class User extends BaseTimeEntity {
     @OneToOne(fetch = FetchType.LAZY)   // User 조회 시 Employee는 조회하지 않도록 fetch타입을 Lazy로 설정
     @JoinColumn(name = "employee_id", nullable = false, unique = true)
     private Employee employee;
-
-    public Long getId() {
-        return id;
-    }
 
 }

@@ -7,11 +7,14 @@ import io.gihub.s0hye0n.aman.repository.EmployeeRepository;
 import io.gihub.s0hye0n.aman.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final EmployeeRepository employeeRepository;
@@ -52,6 +55,20 @@ public class UserService {
         if(userRepository.existsByEmail(email)) {
             throw new IllegalStateException("이미 존재하는 이메일 입니다.");
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("이메일 또는 비밀번호를 확인해주세요."));
+
+        return org.springframework.security.core.userdetails.User
+                .builder()
+                .username(user.getEmail())
+                .password(user.getPasswordHash())
+                .disabled(!user.isActive())
+                .roles(String.valueOf(user.getRole()))
+                .build();
     }
 
 }
