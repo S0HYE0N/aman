@@ -6,6 +6,7 @@ import io.gihub.s0hye0n.aman.repository.EmployeeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,5 +46,9 @@ public class EmployeeService {
 
     public Optional<Employee> getEmployeeById(Long id) {
         return employeeRepository.findById(id);
+    }
+
+    public List<Employee> getAllEmployee() {
+        return employeeRepository.findAll();
     }
 }
