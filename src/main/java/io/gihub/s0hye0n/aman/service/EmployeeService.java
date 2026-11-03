@@ -4,9 +4,10 @@ import io.gihub.s0hye0n.aman.domain.Employee;
 import io.gihub.s0hye0n.aman.dto.CreateEmployeeRequest;
 import io.gihub.s0hye0n.aman.repository.EmployeeRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,7 +49,7 @@ public class EmployeeService {
         return employeeRepository.findById(id);
     }
 
-    public List<Employee> getAllEmployee() {
-        return employeeRepository.findAll();
+    public Page<Employee> getAllEmployee(Pageable pageable) {
+        return employeeRepository.findAll(pageable);
     }
 }
