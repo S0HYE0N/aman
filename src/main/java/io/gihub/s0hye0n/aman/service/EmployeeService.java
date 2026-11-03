@@ -3,6 +3,7 @@ package io.gihub.s0hye0n.aman.service;
 import io.gihub.s0hye0n.aman.domain.Employee;
 import io.gihub.s0hye0n.aman.dto.CreateEmployeeRequest;
 import io.gihub.s0hye0n.aman.repository.EmployeeRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,7 +54,11 @@ public class EmployeeService {
         return employeeRepository.findAll(pageable);
     }
 
+    @Transactional
     public void deleteEmployee(Long id) {
-        employeeRepository.deleteById(id);
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("해당 직원이 존재하지 않습니다."));
+
+        employeeRepository.delete(employee);
     }
 }
