@@ -52,4 +52,8 @@ public class EmployeeService {
     public Page<Employee> getAllEmployee(Pageable pageable) {
         return employeeRepository.findAll(pageable);
     }
+
+    public void deleteEmployee(Long id) {
+        employeeRepository.deleteById(id);
+    }
 }

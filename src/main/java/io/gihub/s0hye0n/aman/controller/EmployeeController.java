@@ -38,4 +38,11 @@ public class EmployeeController {
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.getAllEmployee(pageable));
     }
+
+    @DeleteMapping("/api/employees/{id}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
+        employeeService.deleteEmployee(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
